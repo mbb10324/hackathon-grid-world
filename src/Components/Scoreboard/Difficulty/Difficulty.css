@@ -1,0 +1,24 @@
+.difficulty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+}
+
+.difficulty select {
+	width: fit-content;
+	border-radius: var(--main-Radius);
+	padding: 6px 10px;
+	border: 1px solid var(--tertiary);
+	outline: none;
+	color: var(--tertiary);
+	background-color: var(--secondary);
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+}
+
+.difficulty select:hover,
+.difficulty select:focus {
+	background-color: var(--tertiary);
+	color: var(--secondary);
+}

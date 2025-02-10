@@ -1,0 +1,16 @@
+.grid {
+	width: 50%;
+	height: 100%;
+	display: grid;
+	gap: 0px 0px;
+	border-width: 4px;
+	border-color: #18181b;
+	background-color: transparent;
+	position: relative;
+}
+
+@media screen and (max-width: 600px) {
+	.grid {
+		width: 100%;
+	}
+}

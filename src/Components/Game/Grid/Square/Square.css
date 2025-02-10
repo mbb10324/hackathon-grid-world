@@ -1,0 +1,63 @@
+.blank {
+	border: var(--main-Border);
+	background-color: var(--blank);
+}
+
+.speeder {
+	border: var(--main-Border);
+	background-color: var(--speeder);
+}
+
+.lava {
+	border: var(--main-Border);
+	background-color: var(--lava);
+}
+
+.mud {
+	border: var(--main-Border);
+	background-color: var(--mud);
+}
+
+.end {
+	border: var(--main-Border);
+	background-color: rgb(255, 0, 255);
+}
+
+.player {
+	border: 2px solid var(--primary);
+	animation: pulse 2s infinite;
+}
+
+.visited {
+	border: var(--main-Border);
+	background-color: #639bf5;
+	animation: colorWave 3s linear;
+}
+
+@keyframes pulse {
+	0% {
+		background-color: #639bf5;
+	}
+
+	50% {
+		background-color: #0444ab;
+	}
+
+	100% {
+		background-color: #639bf5;
+	}
+}
+
+@keyframes colorWave {
+	0% {
+		background-color: #0444ab;
+	}
+
+	50% {
+		background-color: #1f60c8;
+	}
+
+	100% {
+		background-color: #639bf5;
+	}
+}

@@ -1,0 +1,36 @@
+.results {
+	background-color: var(--tertiary);
+	padding: 20px;
+	border-radius: 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.results h2 {
+	text-align: center;
+}
+
+.restart {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-top: 1px solid var(--primary);
+	padding-top: 20px;
+}
+
+.restart button {
+	border-radius: var(--main-Radius);
+	padding: 6px 10px;
+	border: 1px solid var(--primary);
+	outline: none;
+	color: var(--primary);
+	background-color: var(--secondary);
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+}
+
+.restart button:hover {
+	background-color: var(--primary);
+	color: var(--secondary);
+}
