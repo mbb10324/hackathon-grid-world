@@ -57,46 +57,10 @@ export default function App() {
 		}
 	}
 
-	let startX = 0; // Declare startX
-	let startY = 0; // Declare startY
-
-	// Function to handle the start of a touch
-	function handleTouchStart(event: React.TouchEvent<HTMLDivElement>) {
-		event.preventDefault();
-		const appElement = document.querySelector('.App');
-		appElement?.classList.add('no-scroll');
-		startX = event.touches[0].clientX;
-		startY = event.touches[0].clientY;
-	}
-
-	// Function to handle the end of a touch
-	const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
-		event.preventDefault();
-		event.stopPropagation();
-		const appElement = document.querySelector('.App');
-		appElement?.classList.remove('no-scroll');
-		const diffX = event.changedTouches[0].clientX - startX; // Changed order here
-		const diffY = event.changedTouches[0].clientY - startY; // Changed order here
-
-		if (Math.abs(diffX) > Math.abs(diffY)) {
-			if (diffX > 0) {
-				game.pressKey('ArrowRight');
-			} else {
-				game.pressKey('ArrowLeft');
-			}
-		} else {
-			if (diffY > 0) {
-				game.pressKey('ArrowDown');
-			} else {
-				game.pressKey('ArrowUp');
-			}
-		}
-	};
-
 	return (
 		<div className='app'>
 			<div className='wrapper'>
-				<Grid gameArray={game.grid} handleTouchStart={handleTouchStart} handleTouchEnd={handleTouchEnd} />
+				<Grid gameArray={game.grid} />
 				<Scoreboard game={game} score={score} />
 			</div>
 		</div>

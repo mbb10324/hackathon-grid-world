@@ -1,43 +1,17 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo } from 'react';
 import Square from './Square/Square';
 import './Grid.css';
 
 type Props = {
 	gameArray: string[][];
-	handleTouchStart: (event: React.TouchEvent<HTMLDivElement>) => void;
-	handleTouchEnd: (event: React.TouchEvent<HTMLDivElement>) => void;
 };
 
 export default function Grid(props: Props) {
 	//get numRows, and squareSize to build grid
 	/**********************************************************************************************/
-	const { gameArray, handleTouchStart, handleTouchEnd } = props;
+	const { gameArray } = props;
 	const gridRef = useRef<HTMLDivElement>(null);
 	const numRows = gameArray[0].length;
-
-	// Cast event handlers to the correct type
-	const handleTouchStartTyped = (event: TouchEvent) =>
-		handleTouchStart(event as unknown as React.TouchEvent<HTMLDivElement>);
-	const handleTouchEndTyped = (event: TouchEvent) =>
-		handleTouchEnd(event as unknown as React.TouchEvent<HTMLDivElement>);
-
-	useEffect(() => {
-		const gridElement = gridRef.current;
-
-		if (gridElement) {
-			const options = { passive: false };
-			gridElement.addEventListener('touchstart', handleTouchStartTyped, options);
-			gridElement.addEventListener('touchend', handleTouchEndTyped, options);
-		}
-
-		return () => {
-			if (gridElement) {
-				gridElement.removeEventListener('touchstart', handleTouchStartTyped);
-				gridElement.removeEventListener('touchend', handleTouchEndTyped);
-			}
-		};
-		//eslint-disable-next-line
-	}, [handleTouchStart, handleTouchEnd]);
 
 	function getSquareSize() {
 		const getGridSize = gridRef.current;
@@ -76,6 +50,6 @@ export default function Grid(props: Props) {
 			</div>
 		);
 		// eslint-disable-next-line
-	}, [gameArray, numRows, squareSize, handleTouchStart, handleTouchEnd]);
+	}, [gameArray, numRows, squareSize]);
 	return memoizeSquares;
 }
