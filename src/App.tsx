@@ -1,7 +1,7 @@
 import Scoreboard from './Components/Scoreboard/Scoreboard';
 import { useGame, useScore } from './Helpers/Hooks';
 import Grid from './Components/Game/Grid/Grid';
-import { useDebounce } from './Helpers/Utils';
+import { debounce } from './Helpers/Utils';
 import { useEffect } from 'react';
 import './App.css';
 
@@ -18,19 +18,15 @@ export default function App() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const { debouncedValue: debouncedDifficulty } = useDebounce({
-		valueOrigin: game.difficulty,
-		debounceAmountMilliseconds: 1000,
-	});
-
 	useEffect(() => {
+		const handleResizeDebounce = debounce(1000, handleResize);
 		function handleResize() {
-			game.changeDifficulty(debouncedDifficulty);
+			game.changeDifficulty(game.difficulty);
 		}
-		window.addEventListener('resize', handleResize);
-		return () => window.removeEventListener('resize', handleResize);
+		window.addEventListener('resize', handleResizeDebounce);
+		return () => window.removeEventListener('resize', handleResizeDebounce);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [debouncedDifficulty, game.changeDifficulty]);
+	}, [game.difficulty, game.changeDifficulty]);
 
 	//fires every time the game condition changes to check for a winner or loser
 	/**********************************************************************************************/

@@ -7,9 +7,10 @@
 	border-color: #18181b;
 	background-color: transparent;
 	position: relative;
+	padding: 20px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
 	.grid {
 		width: 100%;
 	}

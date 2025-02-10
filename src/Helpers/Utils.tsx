@@ -1,18 +1,24 @@
 import { gameParams, squareDefinitions } from './GameRules';
-import { useEffect, useState } from 'react';
 
 //builds the initial game array
 export function buildGameArray(width: number): string[][] {
 	if (!(width % 2 === 1)) {
+		// Create an array with 1/4 of the total squares as 'blank', 'speeder', 'lava', and 'mud'
 		const blankArray = Array((width * width) / 4).fill('blank');
 		const speederArray = Array((width * width) / 4).fill('speeder');
 		const lavaArray = Array((width * width) / 4).fill('lava');
 		const mudArray = Array((width * width) / 4).fill('mud');
 		const combinedArray = blankArray.concat(speederArray, lavaArray, mudArray);
+		// Shuffle the array and convert it to a 2D array
 		const shuffledArray = fisherYatesShuffle(combinedArray);
-		shuffledArray[0] = 'player';
-		shuffledArray[shuffledArray.length - 1] = 'end';
 		const twoD = makeTwoD(shuffledArray, width);
+		// Set the 'player' to a random starting square on the left side of the grid
+		const randomRow = Math.floor(Math.random() * width);
+		twoD[randomRow][0] = 'player';
+		// Set the 'end' to a random ending square on the right side of the grid
+		const randomEndRow = Math.floor(Math.random() * width);
+		twoD[randomEndRow][width - 1] = 'end';
+
 		return twoD;
 	} else {
 		alert('ERROR: The number of rows/width of the game needs to be an EVEN number.');
@@ -44,7 +50,7 @@ function fisherYatesShuffle(array: string[]) {
 }
 
 //finds the next index the player is moving to
-export function findIndex(gameArray: string[][], oldIndex: [number, number], direction: string): [number, number] {
+export function findNextIndex(gameArray: string[][], oldIndex: [number, number], direction: string): [number, number] {
 	const [oldRow, oldCol] = oldIndex;
 	let newRow = oldRow;
 	let newCol = oldCol;
@@ -97,30 +103,25 @@ export function difficulyReset(difficulty: string) {
 	}
 }
 
+export function findPlayer(gameArray: string[][]): [number, number] {
+	const playerRow = gameArray.findIndex((row) => row.includes('player'));
+	const playerCol = gameArray[playerRow].indexOf('player');
+	return [playerRow, playerCol];
+}
+
+export function findEnd(gameArray: string[][]): [number, number] {
+	const endingRow = gameArray.findIndex((row) => row.includes('end'));
+	const endingCol = gameArray[endingRow].indexOf('end');
+	return [endingRow, endingCol];
+}
+
 //function to test inputs after x amount of ms
 let timeoutId: number;
-export function debounce(ms: number, action: any) {
-	return (...args: any) => {
+export function debounce<T extends (...args: unknown[]) => void>(ms: number, action: T) {
+	return (...args: Parameters<T>): void => {
 		if (timeoutId) clearTimeout(timeoutId);
 		timeoutId = setTimeout(() => {
 			action(...args);
 		}, ms);
 	};
-}
-
-type DebounceParameters<T> = {
-	valueOrigin: T;
-	debounceAmountMilliseconds: number;
-};
-
-export function useDebounce<T>(parameters: DebounceParameters<T>) {
-	const [debouncedValue, setDebouncedValue] = useState<T>(parameters.valueOrigin);
-	useEffect(() => {
-		const delayInputTimeoutId = setTimeout(() => {
-			setDebouncedValue(parameters.valueOrigin);
-		}, parameters.debounceAmountMilliseconds);
-		return () => clearTimeout(delayInputTimeoutId);
-	}, [parameters.valueOrigin, parameters.debounceAmountMilliseconds]);
-
-	return { debouncedValue, setDebouncedValue };
 }

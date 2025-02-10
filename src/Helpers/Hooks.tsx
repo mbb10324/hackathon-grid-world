@@ -1,5 +1,14 @@
 import { useReducer, useState, Reducer } from 'react';
-import { buildGameArray, difficulyReset, findIndex, isGameOver, updateGameArray, updateScore } from './Utils';
+import {
+	buildGameArray,
+	difficulyReset,
+	findEnd,
+	findNextIndex,
+	findPlayer,
+	isGameOver,
+	updateGameArray,
+	updateScore,
+} from './Utils';
 import { gameParams } from './GameRules';
 
 //all types used throughout this file
@@ -22,6 +31,7 @@ export enum DifficultyTypes {
 
 interface GameState {
 	playerIndex: [number, number];
+	endingIndex: [number, number];
 	gameArray: string[][];
 	width: number;
 	healthPoints: number;
@@ -35,6 +45,7 @@ interface GameState {
 /**********************************************************************************************/
 const initialGameState: GameState = {
 	playerIndex: [0, 0],
+	endingIndex: [0, 0],
 	gameArray: [[]],
 	width: gameParams.medium.width,
 	healthPoints: gameParams.medium.health,
@@ -45,23 +56,27 @@ const initialGameState: GameState = {
 };
 
 const gameReducer: Reducer<GameState, GameAction> = (state: GameState, action: GameAction): GameState => {
+	let thisDifficulty: { healthDiff: number; movesDiff: number } = { healthDiff: 0, movesDiff: 0 };
+	let thisNewArray: string[][] = [[]];
 	switch (action.type) {
 		//fired each time the game starts/startsover
 		case 'GameStarted':
-			const thisDifficuly = difficulyReset(state.difficulty);
-			const newArray = buildGameArray(state.width);
+			thisDifficulty = difficulyReset(state.difficulty);
+			thisNewArray = buildGameArray(state.width);
+
 			return {
 				...state,
-				healthPoints: thisDifficuly.healthDiff,
-				moves: thisDifficuly.movesDiff,
-				playerIndex: [0, 0],
-				gameArray: newArray,
+				healthPoints: thisDifficulty.healthDiff,
+				moves: thisDifficulty.movesDiff,
+				playerIndex: findPlayer(thisNewArray),
+				endingIndex: findEnd(thisNewArray),
+				gameArray: thisNewArray,
 				gameCondition: 'new',
 			};
 		//fired on every arrow key press
 		case 'KeyPressed':
 			if (state.gameCondition !== 'loser' && state.gameCondition !== 'winner') {
-				const newIndex = findIndex(state.gameArray, state.playerIndex, action.key);
+				const newIndex = findNextIndex(state.gameArray, state.playerIndex, action.key);
 				const newScore = updateScore(state.healthPoints, state.moves, newIndex, state.gameArray);
 				const updatedArray: string[][] = updateGameArray(state.gameArray, state.playerIndex, newIndex);
 				const nextGameState = isGameOver(newScore.remainingHealth, newScore.remainingMoves, newScore.newSquare);
@@ -85,36 +100,42 @@ const gameReducer: Reducer<GameState, GameAction> = (state: GameState, action: G
 		case 'DifficultyChanged':
 			switch (action.difficulty) {
 				case 'easy':
+					thisNewArray = buildGameArray(gameParams.easy.width);
 					return {
 						...state,
 						difficulty: 'easy' as DifficultyTypes,
 						width: gameParams.easy.width,
 						healthPoints: gameParams.easy.health,
 						moves: gameParams.easy.moves,
-						playerIndex: [0, 0],
-						gameArray: buildGameArray(gameParams.easy.width),
+						playerIndex: findPlayer(thisNewArray),
+						endingIndex: findEnd(thisNewArray),
+						gameArray: thisNewArray,
 						gameCondition: 'new',
 					};
 				case 'medium':
+					thisNewArray = buildGameArray(gameParams.medium.width);
 					return {
 						...state,
 						difficulty: 'medium' as DifficultyTypes,
 						width: gameParams.medium.width,
 						healthPoints: gameParams.medium.health,
 						moves: gameParams.medium.moves,
-						playerIndex: [0, 0],
-						gameArray: buildGameArray(gameParams.medium.width),
+						playerIndex: findPlayer(thisNewArray),
+						endingIndex: findEnd(thisNewArray),
+						gameArray: thisNewArray,
 						gameCondition: 'new',
 					};
 				case 'hard':
+					thisNewArray = buildGameArray(gameParams.hard.width);
 					return {
 						...state,
 						difficulty: 'hard' as DifficultyTypes,
 						width: gameParams.hard.width,
 						healthPoints: gameParams.hard.health,
 						moves: gameParams.hard.moves,
-						playerIndex: [0, 0],
-						gameArray: buildGameArray(gameParams.hard.width),
+						playerIndex: findPlayer(thisNewArray),
+						endingIndex: findEnd(thisNewArray),
+						gameArray: thisNewArray,
 						gameCondition: 'new',
 					};
 				default:

@@ -16,7 +16,7 @@ export default function Grid(props: Props) {
 	function getSquareSize() {
 		const getGridSize = gridRef.current;
 		if (getGridSize instanceof HTMLElement) {
-			return `${Number(getGridSize.clientWidth) / numRows}px`;
+			return `${Number(getGridSize.clientWidth - 52) / numRows}px`;
 		}
 		return '';
 	}

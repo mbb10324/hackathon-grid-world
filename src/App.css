@@ -23,7 +23,8 @@ body {
 }
 
 .app {
-	display: block;
+	display: flex;
+	justify-content: center;
 	width: 100vw;
 	min-height: 100vh;
 	height: 100%;
@@ -41,9 +42,11 @@ body {
 	display: flex;
 	flex-direction: row;
 	width: 100vw;
+	height: 100%;
+	max-width: 1600px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 900px) {
 	.wrapper {
 		flex-direction: column-reverse;
 	}
