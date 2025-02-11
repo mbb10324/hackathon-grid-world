@@ -1,5 +1,5 @@
+import { DifficultyTypes } from '../../../models';
 import './Difficulty.css';
-import { DifficultyTypes } from '../../../Helpers/Hooks';
 
 type Props = {
 	changeDifficulty: (difficulty: DifficultyTypes) => void;

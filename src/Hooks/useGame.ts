@@ -1,4 +1,6 @@
-import { useReducer, useState, Reducer } from 'react';
+import { ArrowKey, DifficultyTypes, GameAction, GameState, UseGame } from '../models';
+import { gameParams } from '../Utils/gameRules';
+import { useReducer, Reducer } from 'react';
 import {
 	buildGameArray,
 	difficulyReset,
@@ -8,41 +10,8 @@ import {
 	isGameOver,
 	updateGameArray,
 	updateScore,
-} from './Utils';
-import { gameParams } from './GameRules';
+} from '../Utils/gameLogic';
 
-//all types used throughout this file
-/**********************************************************************************************/
-export type ArrowKey = 'ArrowLeft' | 'ArrowRight' | 'ArrowUp' | 'ArrowDown';
-
-export type Result = 'loser' | 'winner' | 'continue';
-
-type GameAction =
-	| { type: 'GameStarted' }
-	| { type: 'KeyPressed'; key: ArrowKey }
-	| { type: 'DifficultyChanged'; difficulty: DifficultyTypes }
-	| { type: 'DetermineGameOver'; result: string };
-
-export enum DifficultyTypes {
-	Easy = 'easy',
-	Medium = 'medium',
-	Hard = 'hard',
-}
-
-interface GameState {
-	playerIndex: [number, number];
-	endingIndex: [number, number];
-	gameArray: string[][];
-	width: number;
-	healthPoints: number;
-	moves: number;
-	newSquare: string;
-	difficulty: DifficultyTypes;
-	gameCondition: 'new' | 'running' | 'winner' | 'loser';
-}
-
-//reducer used to handle game state
-/**********************************************************************************************/
 const initialGameState: GameState = {
 	playerIndex: [0, 0],
 	endingIndex: [0, 0],
@@ -144,7 +113,7 @@ const gameReducer: Reducer<GameState, GameAction> = (state: GameState, action: G
 	}
 };
 
-export function useGame() {
+export function useGame(): UseGame {
 	const [state, dispatch] = useReducer(gameReducer, initialGameState);
 
 	function startGame() {
@@ -169,46 +138,5 @@ export function useGame() {
 		moves: state.moves,
 		difficulty: state.difficulty,
 		gameCondition: state.gameCondition,
-	};
-}
-
-//custom hook to stucture shared state changes
-/**********************************************************************************************/
-export function useScore() {
-	const [showLose, setShowLose] = useState<boolean>(false); //bool state for showing loser modal
-	const [showWin, setShowWin] = useState<boolean>(false); //bool state for showing winner modal
-	const [wins, setWins] = useState<number>(0); //win counter
-	const [loses, setLoses] = useState<number>(0); //lose counter
-	const [gamesPlayed, setGamesPlayed] = useState<number>(0); //total games played counter
-
-	function winner() {
-		setShowWin(true);
-		setWins(wins + 1);
-		setGamesPlayed(gamesPlayed + 1);
-	}
-
-	function loser() {
-		setShowLose(true);
-		setLoses(loses + 1);
-		setGamesPlayed(gamesPlayed + 1);
-	}
-
-	function resetCounters() {
-		setWins(0);
-		setLoses(0);
-		setGamesPlayed(0);
-	}
-
-	return {
-		setShowLose,
-		setShowWin,
-		winner,
-		loser,
-		resetCounters,
-		showLose,
-		showWin,
-		gamesPlayed,
-		wins,
-		loses,
 	};
 }

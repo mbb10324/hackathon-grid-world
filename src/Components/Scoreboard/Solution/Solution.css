@@ -1,0 +1,16 @@
+.solution button {
+	width: fit-content;
+	border-radius: var(--main-Radius);
+	padding: 6px 10px;
+	border: 1px solid var(--tertiary);
+	outline: none;
+	color: var(--tertiary);
+	background-color: var(--secondary);
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+}
+
+.solution button:hover {
+	background-color: var(--tertiary);
+	color: var(--secondary);
+}

@@ -1,34 +1,34 @@
-.blank {
+.E {
 	border: var(--main-Border);
 	background-color: var(--blank);
 }
 
-.speeder {
+.S {
 	border: var(--main-Border);
 	background-color: var(--speeder);
 }
 
-.lava {
+.L {
 	border: var(--main-Border);
 	background-color: var(--lava);
 }
 
-.mud {
+.M {
 	border: var(--main-Border);
 	background-color: var(--mud);
 }
 
-.end {
+.B {
 	border: var(--main-Border);
 	background-color: rgb(255, 0, 255);
 }
 
-.player {
+.A {
 	border: 2px solid var(--primary);
 	animation: pulse 2s infinite;
 }
 
-.visited {
+.V {
 	border: var(--main-Border);
 	background-color: #639bf5;
 	animation: colorWave 3s linear;

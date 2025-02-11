@@ -1,3 +1,5 @@
+import { SquareDefinitions } from '../models';
+
 export const easyWidth = 10;
 export const easyHealth = 100;
 export const easyMoves = 40;
@@ -16,17 +18,12 @@ export const gameParams = {
 	hard: { width: hardWidth, health: hardHealth, moves: hardMoves },
 };
 
-interface SquareDefinitions {
-	[key: string]: { moves: number; health: number };
-}
-
-//define types of squares
 export const squareDefinitions: SquareDefinitions = {
-	player: { moves: 0, health: 0 },
-	end: { moves: 0, health: 0 },
-	visited: { moves: 0, health: 0 },
-	blank: { moves: -1, health: 0 },
-	speeder: { moves: 0, health: -5 },
-	lava: { moves: -10, health: -50 },
-	mud: { moves: -5, health: -10 },
+	A: { moves: 0, health: 0 },
+	B: { moves: 0, health: 0 },
+	V: { moves: 0, health: 0 },
+	E: { moves: -1, health: 0 },
+	S: { moves: 0, health: -5 },
+	L: { moves: -10, health: -50 },
+	M: { moves: -5, health: -10 },
 };

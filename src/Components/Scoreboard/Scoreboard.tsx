@@ -1,11 +1,13 @@
-import Difficulty from './Difficulty/Difficulty';
 import ResultModals from './ResultModals/ResultModals';
+import Difficulty from './Difficulty/Difficulty';
+import { UseGame, UseScore } from '../../models';
+import Solution from './Solution/Solution';
 import Score from './Score/Score';
 import './Scoreboard.css';
 
 type ScoreboardProps = {
-	game: any;
-	score: any;
+	game: UseGame;
+	score: UseScore;
 };
 
 export default function Scoreboard(props: ScoreboardProps) {
@@ -26,6 +28,7 @@ export default function Scoreboard(props: ScoreboardProps) {
 				changeDifficulty={game.changeDifficulty}
 				resetCounters={score.resetCounters}
 			/>
+			<Solution grid={game.grid} />
 			<ResultModals
 				clickedRestart={() => game.startGame()}
 				setShowWin={score.setShowWin}

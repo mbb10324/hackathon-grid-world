@@ -6,8 +6,8 @@ type Props = {
 	showWin: boolean;
 	showLose: boolean;
 	clickedRestart: React.Dispatch<React.SetStateAction<void>>;
-	setShowWin: React.Dispatch<React.SetStateAction<boolean>>;
-	setShowLose: React.Dispatch<React.SetStateAction<boolean>>;
+	setShowWin: (showWin: boolean) => void;
+	setShowLose: (showLose: boolean) => void;
 };
 
 export default function ResultModals(props: Props) {
