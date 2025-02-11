@@ -1,4 +1,4 @@
-import { ArrowKey, DifficultyTypes, GameAction, GameState, UseGame } from '../models';
+import { ArrowKey, DifficultyTypes, GameAction, GameState, UseGame, Path } from '../models';
 import { gameParams } from '../Utils/gameRules';
 import { useReducer, Reducer } from 'react';
 import {
@@ -22,6 +22,7 @@ const initialGameState: GameState = {
 	newSquare: '',
 	difficulty: 'medium' as DifficultyTypes,
 	gameCondition: 'new',
+	solution: [],
 };
 
 const gameReducer: Reducer<GameState, GameAction> = (state: GameState, action: GameAction): GameState => {
@@ -110,6 +111,11 @@ const gameReducer: Reducer<GameState, GameAction> = (state: GameState, action: G
 				default:
 					return state;
 			}
+		case 'SetSolution':
+			return {
+				...state,
+				solution: action.solution,
+			};
 	}
 };
 
@@ -128,10 +134,15 @@ export function useGame(): UseGame {
 		dispatch({ type: 'DifficultyChanged', difficulty });
 	}
 
+	function setSolution(solution: Path[]) {
+		dispatch({ type: 'SetSolution', solution });
+	}
+
 	return {
 		startGame,
 		pressKey,
 		changeDifficulty,
+		setSolution,
 		grid: state.gameArray,
 		width: state.width,
 		health: state.healthPoints,

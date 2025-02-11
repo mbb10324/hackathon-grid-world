@@ -1,31 +1,14 @@
-import { useState } from 'react';
+import useFindSolution from '../../../Hooks/useFindSolution';
+import { UseGame } from '../../../models';
 import './Solution.css';
 
 type SolutionProps = {
-	grid: string[][];
+	game: UseGame;
 };
 
 export default function Solution(props: SolutionProps) {
-	const { grid } = props;
-	const [solution, setSolution] = useState<string | null>(null);
-
-	function solve() {
-		fetch('http://localhost:3000/solve', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ grid: convert2DArrayToString(grid) }),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				setSolution(data);
-			});
-	}
-
-	function convert2DArrayToString(gameArray: string[][]): string {
-		return gameArray.map((row) => row.map((cell) => cell.charAt(0).toUpperCase()).join('')).join('\n');
-	}
+	const { game } = props;
+	const { solve, solution } = useFindSolution(game);
 
 	console.log(solution);
 

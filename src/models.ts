@@ -6,6 +6,7 @@ export interface UseGame {
 	startGame: () => void;
 	pressKey: (key: ArrowKey) => void;
 	changeDifficulty: (difficulty: DifficultyTypes) => void;
+	setSolution: (solution: Path[]) => void;
 	grid: string[][];
 	width: number;
 	health: number;
@@ -22,7 +23,8 @@ export type GameAction =
 	| { type: 'GameStarted' }
 	| { type: 'KeyPressed'; key: ArrowKey }
 	| { type: 'DifficultyChanged'; difficulty: DifficultyTypes }
-	| { type: 'DetermineGameOver'; result: string };
+	| { type: 'DetermineGameOver'; result: string }
+	| { type: 'SetSolution'; solution: Path[] };
 
 export enum DifficultyTypes {
 	Easy = 'easy',
@@ -40,6 +42,7 @@ export interface GameState {
 	newSquare: string;
 	difficulty: DifficultyTypes;
 	gameCondition: 'new' | 'running' | 'winner' | 'loser';
+	solution: Path[];
 }
 
 export interface UseScore {
@@ -54,3 +57,16 @@ export interface UseScore {
 	wins: number;
 	loses: number;
 }
+
+export type Path = {
+	r: number;
+	c: number;
+	type: string;
+};
+
+export type Solution = {
+	health: number;
+	moves: number;
+	path: Path[];
+	visualization: string[];
+};

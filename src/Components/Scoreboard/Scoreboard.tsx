@@ -28,7 +28,7 @@ export default function Scoreboard(props: ScoreboardProps) {
 				changeDifficulty={game.changeDifficulty}
 				resetCounters={score.resetCounters}
 			/>
-			<Solution grid={game.grid} />
+			<Solution game={game} />
 			<ResultModals
 				clickedRestart={() => game.startGame()}
 				setShowWin={score.setShowWin}
